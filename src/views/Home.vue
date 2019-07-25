@@ -13,6 +13,15 @@ export default {
   components: {
     ListBody,
     ListHeader
+  },
+  methods:{
+    getItemList(){
+      this.$store.dispatch('getList')
+     // console.log(this.$store.state.items)
+    }
+  },
+  mounted() {
+    this.getItemList()
   }
 }
 </script>

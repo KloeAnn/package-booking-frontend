@@ -6,36 +6,31 @@ const axios = require('axios');
 
 export default new Vuex.Store({
   state: {
-    items:[{
-      id:1,
-      name:"lisi",
-      telephone:"123456",
-      status:"1",
-      gettingTime:"111"
-    },
-      {
-        id:1,
-        name:"lisi",
-        telephone:"123456",
-        status:"1",
-        gettingTime:"111"
-      }]
+    items:[]
   },
   mutations: {
-      addItems(state,item){
-        state.items.add(item)
+      getList(state,item){
+        state.items.length=0
+        state.items.push(...item)
+      },
+      addItem(state,item){
+        state.items.push(item)
       }
   },
   actions: {
-    axios.get('/user?ID=12345')
-      .then(response=> {
-        getitems(context){
-          context.commit('addItems',response.data)
+    getList (context) {
+      axios.get("http://localhost:8100/parcels").then(
+        response=>{
+          context.commit('getList',response.data)
         }
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
+      ).catch(e=>alert(e))
+    },
+    addItem(context){
+      axios.post("http://localhost:8100/parcels",item).then(
+        response=>{
+          context.commit('addItem',response.data)
+        }
+      ).catch(e=>alert(e))
+    }
 }
 })
